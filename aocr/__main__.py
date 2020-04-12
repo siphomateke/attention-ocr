@@ -212,7 +212,14 @@ def main(args=None):
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
 
-    with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
+    config = tf.ConfigProto()
+    config.allow_soft_placement = True
+
+    # Workaround for "Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR" on some Nvidia GPUs
+    # See https://github.com/tensorflow/tensorflow/issues/24496#issuecomment-455265295
+    config.gpu_options.allow_growth = True
+
+    with tf.Session(config=config) as sess:
 
         if parameters.phase == 'dataset':
             dataset.generate(
