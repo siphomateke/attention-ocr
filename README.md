@@ -128,14 +128,12 @@ curl -X POST \
   -d '{
   "signature_name": "serving_default",
   "inputs": {
-     	"input": { "b64": "<your image encoded as base64>" }
+      "input": { "b64": "<your image encoded as base64>" }
   }
 }'
 ```
 
 REST API requires binary inputs to be encoded as Base64 and wrapped in an object containing `b64` key. [See 'Encoding binary values' in Tensorflow Serving documentation](https://www.tensorflow.org/serving/api_rest#encoding_binary_values)
-
-
 
 ## Google Cloud ML Engine
 
@@ -191,13 +189,9 @@ gcloud ml-engine jobs submit training $JOB_NAME \
 
 * `log-path`: Path for the log file.
 
-### Testing
+### Dataset generation
 
-* `visualize`: Output the attention maps on the original image.
-
-### Exporting
-
-* `format`: Format for the export (either `savedmodel` or `frozengraph`).
+* `no-force-uppercase`: Do not force uppercase on label values. Use in combination with `--full-ascii` when training to generate a model that can generate uppercase and lowercase predictions.
 
 ### Training
 
@@ -216,6 +210,16 @@ gcloud ml-engine jobs submit training $JOB_NAME \
 * `max-width`: Maximum width for the input images. WARNING: images with the width higher than maximum will be discarded.
 * `max-height`: Maximum height for the input images.
 * `max-prediction`: Maximum length of the predicted word/phrase.
+* `full-ascii`: Use all ASCII characters when training. Useful when you want lowercase letters to be considered as well uppercase ones. Make sure you also add the `--no-force-uppercase` flag when generating the dataset.
+
+### Testing
+
+* `visualize`: Output the attention maps on the original image.
+* `full-ascii`: Use all ASCII characters when testing. Enable if you used this when training as well.
+
+### Exporting
+
+* `format`: Format for the export (either `savedmodel` or `frozengraph`).
 
 ## References
 
